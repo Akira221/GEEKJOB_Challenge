@@ -58,7 +58,7 @@ class Book{
     }
      public void print(PrintWriter pw){
          Book magazine = new Book();
-         pw.print(title + money +"円");
+         pw.print(this.title + this.money +"円");
     }
    
 }
