@@ -25,57 +25,63 @@ abstract class Human {
     abstract public void setCard(ArrayList<Integer> list);
 
     abstract public boolean checkSum();
-    ArrayList<Integer> myCards = new ArrayList<Integer>();
+    ArrayList<Integer> myCards = new ArrayList<Integer>();  //てふだ
 }
 
 class Dealer extends Human {
 
     ArrayList<Integer> cards = new ArrayList<Integer>();
-    ArrayList<Integer> list = new ArrayList<Integer>();
 
     public Dealer(int num) {
 
         if (num == 1) {
             for (int i = 1; i <= 4; i++) {
                 for (int ser = 1; ser <= 13; ser++) {
-                    cards.add(ser);
+                    this.cards.add(ser);
                 }
             }
 
         }
     }
 
-    public void deal(String s) {
+    public ArrayList<Integer> deal(String s) {
+        ArrayList<Integer> temp = new ArrayList<Integer>();
         if (s == "start") {
             for (int a = 1; a <= 2; a++) {
                 Random rand = new Random();
-                Integer r = rand.nextInt(cards.size());
-                cards.remove(r);
-                list.add(r);
+                Integer r = rand.nextInt(this.cards.size());
+                this.cards.remove(r);
+                temp.add(r);
             }
 
         }
-
+        return temp;
     }
 
-    public void hit() {
+    public ArrayList<Integer> hit() {
+        ArrayList<Integer> temp2 = new ArrayList<Integer>();
         Random rand = new Random();
-        Integer rm = rand.nextInt(cards.size());
-        cards.remove(rm);
-        list.add(rm);
+        Integer rm = rand.nextInt(this.cards.size());
+        this.cards.remove(rm);
+        temp2.add(rm);
+        return temp2;
     }
 
     public void setCard(ArrayList<Integer> list) {
-        for (int i = 0; i < list.size(); i++) {
-            myCards.add(list.get(i));
 
+        for (int i = 0; i < list.size(); i++) {
+            this.myCards.add(list.get(i));
         }
+
     }
 
-    
-    
     public boolean checkSum() {
-        if (myCards.get(0) + myCards.get(1) <= 20) {
+
+        int total = 0;
+        for (int value : this.myCards) {
+            total = total + value;
+        }
+        if (total <= 20) {
             return true;
         } else {
             return false;
@@ -84,7 +90,7 @@ class Dealer extends Human {
 
     public int open() {
         int total = 0;
-        for (int value : myCards) {
+        for (int value : this.myCards) {
             total = total + value;
         }
         return total;
@@ -95,13 +101,18 @@ class User extends Human {
 
     public void setCard(ArrayList<Integer> list) {
         for (int i = 0; i < list.size(); i++) {
-            myCards.add(list.get(i));
+            this.myCards.add(list.get(i));
 
         }
     }
 
     public boolean checkSum() {
-        if (myCards.get(0) + myCards.get(1) <= 20) {
+
+        int total = 0;
+        for (int value : this.myCards) {
+            total = total + value;
+        }
+        if (total <= 20) {
             return true;
         } else {
             return false;
@@ -110,7 +121,7 @@ class User extends Human {
 
     public int open() {
         int total = 0;
-        for (int value : myCards) {
+        for (int value : this.myCards) {
             total = total + value;
         }
         return total;
@@ -133,6 +144,47 @@ public class BrackJack extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             Dealer d = new Dealer(1);
+            User u = new User();
+            
+            out.print("Start!<br>");
+
+            out.print("Users deal<br>");
+
+//            d.deal("start");
+
+            u.setCard(d.deal("start"));
+//           out.print(u.myCards + "<br>");
+
+            out.print("Dealers deal<br>");
+//            d.deal("start");
+            d.setCard(d.deal("start"));
+
+            while (true) {
+                if (u.checkSum() == true) {
+//                    d.hit();
+                    u.setCard(d.hit());
+
+                    out.print("Users hit<br>");
+                }
+                if (u.checkSum() == false){
+                    break;
+                }
+                    if (d.checkSum() == true) {
+                        d.hit();
+                        d.setCard(d.hit());
+                        out.print("Dealers hit<br>");
+                    }
+                    if (d.checkSum() == false){
+                    break;
+                }
+            }
+                if (u.checkSum() == false && d.checkSum() == false) {
+                    out.print("Open!<br>");
+                    out.print("Dealers No," + d.open() + "<br>");
+                    out.print("Users No," + u.open());
+                    
+                }
+            
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -140,7 +192,7 @@ public class BrackJack extends HttpServlet {
             out.println("<title>Servlet BrackJack</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BrackJack at " + request.getContextPath() + "</h1>");
+            out.println("<h1></h1>");
             out.println("</body>");
             out.println("</html>");
         }
