@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Calendar;
-
+import java.sql.Timestamp;
 /**
  *
  * @author guest1Day
@@ -33,8 +33,10 @@ public class timestamp extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             Calendar c = Calendar.getInstance();
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             c.set(2016, 0, 1, 0, 0, 0);
-            out.print(c.getTime());
+            out.print(c.getTime().getTime());
+            
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
