@@ -12,7 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form action="./test.jsp" method="post">
+        <form action="./DataOutput.jsp" method="post">
               名前<input type="text" name="txtName"><br>
               男性<input type="radio" name="rdoSeibetuM">女性<input type="radio" name="rdoSeibetuF"><br>
               趣味<textarea name="mulText"></textarea><br>
