@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Cookie;
-
+import javax.servlet.http.HttpSession;
 /**
  *
  * @author guest1Day
@@ -37,14 +37,19 @@ public class Session2_Cookie extends HttpServlet {
             String s = request.getParameter("seibetu");
             String h = request.getParameter("mulText");
            
-            Cookie a = new Cookie("Namae", n);
-            Cookie b = new Cookie("Seibetu", s);
-            Cookie c = new Cookie("hobby", h);
-
-            // cookieに反映
-            response.addCookie(a);
-            response.addCookie(b);
-            response.addCookie(c);
+             HttpSession hs = request.getSession();
+             hs.setAttribute("Name", n);
+             hs.setAttribute("Seibetu", s);
+             hs.setAttribute("MulText", h);
+            
+//            Cookie a = new Cookie("Namae", n);
+//            Cookie b = new Cookie("Seibetu", s);
+//            Cookie c = new Cookie("hobby", h);
+//
+//            // cookieに反映
+//            response.addCookie(a);
+//            response.addCookie(b);
+//            response.addCookie(c);
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
