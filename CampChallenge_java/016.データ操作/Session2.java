@@ -11,13 +11,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author guest1Day
  */
-public class Session2_Cookie extends HttpServlet {
+public class Session2 extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,28 +32,23 @@ public class Session2_Cookie extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            request.setCharacterEncoding("UTF-8");
+             request.setCharacterEncoding("UTF-8");
             String n = request.getParameter("name");
             String s = request.getParameter("seibetu");
             String h = request.getParameter("mulText");
-           
-            Cookie a = new Cookie("Namae", n);
-            Cookie b = new Cookie("Seibetu", s);
-            Cookie c = new Cookie("hobby", h);
 
-            // cookieに反映
-            response.addCookie(a);
-            response.addCookie(b);
-            response.addCookie(c);
+            HttpSession hs = request.getSession();
+            hs.setAttribute("Name", n);
+            hs.setAttribute("Seibetu", s);
+            hs.setAttribute("MulText", h);
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Session2_Cookie</title>");
+            out.println("<title>Servlet Session2</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<form>");
-            out.println("<h1>Servlet Session2_Cookie at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Session2 at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
