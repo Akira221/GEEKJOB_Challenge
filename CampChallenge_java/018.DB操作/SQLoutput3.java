@@ -28,6 +28,8 @@ public class SQLoutput3 extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    Connection db_con = null;
+    PreparedStatement db_st = null;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -36,21 +38,21 @@ public class SQLoutput3 extends HttpServlet {
             String pid = request.getParameter("profilesID");
             int id = Integer.parseInt(pid);
 
-            Connection db_con = null;
+            
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             db_con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Challenge_db", "root", "");
 
-            PreparedStatement db_st = null;
+            
             db_st = db_con.prepareStatement("delete FROM profiles WHERE profilesID = ?");
             db_st.setInt(1, id);
             db_st.executeUpdate();
-
-            if (db_con != null) {
+            int num = db_st.executeUpdate();
+            if (num == 1) {
                 out.print("情報を削除しました。");
-                db_con.close();
-                db_st.close();
-            }else{
-               //何もしない
+
+                
+            } else {
+                //何もしない
             }
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -64,6 +66,17 @@ public class SQLoutput3 extends HttpServlet {
             out.println("</html>");
         } catch (Exception e_con) {
             System.out.println(e_con.getMessage());
+        } finally {
+            try {
+                if (db_con != null) {
+                    db_con.close();
+                }
+                if (db_st != null) {
+                    db_st.close();
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
