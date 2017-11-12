@@ -59,7 +59,7 @@ public class SQLoutput3 extends HttpServlet {
             out.println("<title>Servlet SQLoutput3</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SQLoutput3 at " + request.getContextPath() + "</h1>");
+            out.println("<h1></h1>");
             out.println("</body>");
             out.println("</html>");
         } catch (Exception e_con) {
