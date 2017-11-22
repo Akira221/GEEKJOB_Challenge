@@ -42,7 +42,7 @@ public class Kanri extends HttpServlet {
             db_con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Challenge_db", "root", "");
 
             PreparedStatement db_st = null;
-            db_st = db_con.prepareStatement("Select * from Users where id =?");
+            db_st = db_con.prepareStatement("Select * from Users where id =? and pass = ?");
             db_st.setString(1, user);
 
             ResultSet rs = db_st.executeQuery();
@@ -53,7 +53,7 @@ public class Kanri extends HttpServlet {
             else if (rs.next()) {
                 String pass2 = rs.getString("pass");
                 String id = rs.getString("id");
-                if (pass2.equals(pass) && id.equals(id)) {
+                if (pass2.equals(pass) && id.equals(user)) {
                     HttpSession session = request.getSession();
                     session.setAttribute("login", pass2);
 
